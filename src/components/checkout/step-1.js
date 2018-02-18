@@ -120,19 +120,27 @@ class Step1 extends Component {
 
     if (user.phone.length < 6 || user.phone.length > 20 ) {
       isError = true
-      error.user_phone = 'min 6 && max 20'
+      error.user_phone = 'phone min 6 character & max 20 character'
     } 
 
-    // -------- uncomment if done tester
+    if (user.address.length <= 0) {
+      isError = true
+      error.user_address = 'address cannot be empty'
+    } 
 
-    // if (!this.isEmail(this.state.user.email)) {
-    //   isError = true
-    //   error.user_email = 'email not valid'
-    // }
+    if (!this.isEmail(this.props.state.user.email)) {
+      isError = true
+      error.user_email = 'email not valid'
+    }
 
-    if (this.state.is_dropshipper && dropshipper.name.length <= 0) {
+    if (this.props.state.is_dropshipper && dropshipper.name.length <= 0) {
       isError = true
       error.dropshipper_name = 'name cannot be empty'
+    } 
+
+    if (this.props.state.is_dropshipper && dropshipper.phone.length <= 0) {
+      isError = true
+      error.dropshipper_phone = 'phone cannot be empty'
     } 
 
     if (isError) {
@@ -186,26 +194,34 @@ class Step1 extends Component {
 
     return (
       <div className='step1'>
+        <div className="information-label">Information</div>
         <form onSubmit={this.submit}>
-          <div className="dropshipper-form">
-            <div>
-              <input type="checkbox" checked={is_dropshipper} onChange={this.sendAsDropshipper}/> Send as Dropshiper
+          <div className='dropshipper-form'>
+            <div className={is_dropshipper ? 'check-box active' : 'check-box'} onClick={this.sendAsDropshipper}>
+               <label htmlFor="">
+                Send as Dropshiper
+                </label>
+                <input type="checkbox" className='checkbox' checked={is_dropshipper} onChange={this.sendAsDropshipper}/> 
+            </div>
+            <div className="form-g">
+              <label htmlFor="">Dropshiper Name</label>
               <input 
                 type="text" 
                 disabled={disabled} 
-                placeholder='dropshipper name'
                 name='name'
                 ref='dropshipper_name'
                 value={dropshipper.name}
                 required
                 onChange={this.inputDropshipperForm}
               />
-              {this.renderError(error.dropshipper_name)}
+            </div>
+            {this.renderError(error.dropshipper_name)}
 
+            <div className="form-g">
+              <label htmlFor="">Dropshiper Phone</label>
               <input 
                 type="number" 
                 disabled={disabled} 
-                placeholder='dropshipper phone'
                 name='phone'
                 ref='dropshipper_phone'
                 value={dropshipper.phone}
@@ -214,6 +230,7 @@ class Step1 extends Component {
               />
             </div>
           </div>
+          {this.renderError(error.dropshipper_phone)}
 
           <div className="user-form">
             <div className='form-g'>
@@ -239,13 +256,14 @@ class Step1 extends Component {
             </div>
             <div className="form-g">
               <label>Address</label>
-              <textarea name="" id="" cols="30" rows="10" 
+              <textarea name="" id="" cols="30" rows="0" 
                 value={user.address} 
                 onChange={(e , data) => this.inputUserForm(e , 'with-counter')}
                 ref='user_address'
                 maxLength={120}
                 ></textarea>
-              <span>Character left {counter}</span>
+              {this.renderError(error.user_address)}
+              <span className='counter'>Character left {this.state.counter}</span>
             </div>
             <div className="form-g">
               <label>Email</label>
@@ -259,7 +277,7 @@ class Step1 extends Component {
             </div>
           </div>
         </form>
-        <button onClick={this.submit}>Next</button>
+        <button className='next' onClick={this.submit}>Next</button>
       </div>
     );
   }

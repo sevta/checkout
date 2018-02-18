@@ -33,7 +33,7 @@ class Checkout extends Component {
     this.setState({step})
   }
 
-  prevFromStep2 = step => {
+  prevFromState = step => {
     this.setState({step})
   }
 
@@ -43,10 +43,10 @@ class Checkout extends Component {
         return <Step1 done={(data) => this.has_submit(data)}/>
         break;
       case 'step2':
-        return <Step2 data={this.state.data_user} done={this.doneFromStep2} prev={this.prevFromStep2} deliveryData={this.deliveryData}/>
+        return <Step2 data={this.state.data_user} done={this.doneFromStep2} prev={this.prevFromState} deliveryData={this.deliveryData}/>
         break;
       case 'step3':
-        return <Step3 data={this.state.data_user} deliveryData={this.state.data_delivery}/>
+        return <Step3 data={this.state.data_user} prev={this.prevFromState} deliveryData={this.state.data_delivery}/>
         break;
     }
   }

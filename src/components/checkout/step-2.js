@@ -111,6 +111,7 @@ class Step2 extends Component {
 
     return (
       <div className='step2'>
+        <div className="information-label">Information</div>
         <div className="user-details-container">
           <div className="user--details">Name <span>{data.user.name}</span></div>
           <div className="user--details">Phone Number <span>{data.user.phone}</span></div>
@@ -120,54 +121,58 @@ class Step2 extends Component {
 
         <div className="services-container">
 
-          <div className="form-g services-form">
+          <div className="form-g services-form form-step2">
             <label>Delivery Service</label>
-            <div className="check-box">
-              <input type="radio" value='jne'
-                onChange={this.selectServices}
-                checked={this.props.state2.services_value === 'jne'}
-              />
-              <label htmlFor="">JNE</label>
-            </div>
-            <div className="check-box">
-              <input type="radio" value='gosend'
-                onChange={this.selectServices}
-                checked={this.props.state2.services_value === 'gosend'}
-              />
-              <label htmlFor="">Go Send</label>
-            </div>
-            <div className="check-box">
-              <input type="radio" value='sicepat'
-                onChange={this.selectServices}
-                checked={this.props.state2.services_value === 'sicepat'}
-              />
-              <label htmlFor="">Si Cepat</label>
+            <div className="checkbox-container">
+              <div className="check-box">
+                <input type="radio" value='jne'
+                  onChange={this.selectServices}
+                  checked={this.props.state2.services_value === 'jne'}
+                />
+                <label htmlFor="">JNE</label>
+              </div>
+              <div className="check-box">
+                <input type="radio" value='gosend'
+                  onChange={this.selectServices}
+                  checked={this.props.state2.services_value === 'gosend'}
+                />
+                <label htmlFor="">Go Send</label>
+              </div>
+              <div className="check-box">
+                <input type="radio" value='sicepat'
+                  onChange={this.selectServices}
+                  checked={this.props.state2.services_value === 'sicepat'}
+                />
+                <label htmlFor="">Si Cepat</label>
+              </div>
             </div>
           </div>
 
-          <div className="form-g">
+          <div className="form-g form-step2">
             <label htmlFor="">Delivery Price</label>
             <span>{idr}</span>
           </div>
           
-          <div className="form-g">
+          <div className="form-g form-step2">
             <label htmlFor="">Delivery Estimate</label>
             <span>{estimate}</span>
           </div>
           
-          <div className="form-g">
+          <div className="form-g form-step2">
             <label htmlFor="">Payment Method</label>
-            {payment_method.map((obj , i) => (
-              <div className="payement-box" key={i+1}>
-                <label htmlFor="">{obj.label}</label>
-                <input type="radio" value={obj.value} onChange={this.selectPayment} 
-                  checked={this.props.state2.payment === obj.value}/>
-              </div>
-            ))}
+            <div className="checkbox-container">
+              {payment_method.map((obj , i) => (
+                <div className="check-box" key={i+1}>
+                  <input type="radio" value={obj.value} onChange={this.selectPayment} 
+                    checked={this.props.state2.payment === obj.value}/>
+                  <label htmlFor="">{obj.label}</label>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <button className="btn-next" onClick={this.nextStep}>Next</button>
-          <button className="btn-prev" onClick={this.prevStep}>Prev</button>
+          <button className="next" onClick={this.nextStep}>Next</button>
+          <button className="prev" onClick={this.prevStep}>Back</button>
 
         </div>
       </div>

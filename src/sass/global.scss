@@ -1,16 +1,120 @@
 @import './var';
+$primary_color: #1DE9B6;
+$second_color: #1DE9B6;
+$border_color: #f1f1f1;
 
-* {
-  box-sizing: boreder-box;
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 body {
 }
 
+label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #999;
+}
+
+textarea , 
+input {
+  display: inline-block;
+  @include size(100% , auto);
+  padding: 10px 0px;
+  border: none;
+  border-bottom: 1px solid $border_color;
+  background: transparent;
+  &:focus {
+    outline: none;
+  }
+}
+
+.error {
+  font-size: 12px;
+  color: #EB001B;
+}
+
+.counter {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.form-g {
+  margin-bottom: 10px;
+}
+
+.next , 
+.prev , 
+.finish {
+  @include size(100% , 45px);
+  background: $primary_color;
+  @include flex-center;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.prev {
+  background: #f4f4f4;
+  color: #666;
+}
+
+
+
 .wrapper {
-  @include size(100% , 100vh);
-  position: relative;
+  @include size(100% , 100%);
+  position: absolute;
   background: #E2ECED;
+  // background: white;
 
   .text {
     @include center-horizontal;
@@ -24,18 +128,134 @@ body {
     .step1 , 
     .step2 ,
     .step3 {
-      @include size(500px , 400px);
+      @include size(600px , auto);
       @include center;
+      padding: 15px;
       background: white;
-      box-shadow: 2px 2px 5px rgba(215, 233, 239, 0.6);
-
-      .user-details-container {
-        background: papayawhip;
-        display: flex;
+      box-shadow: 1px 1px 32px rgba(215, 233, 239, 0.9);
+      border-radius: 2px;
+      .information-label {
+        font-size: 12px;
+        font-weight: bold;
+        background: white;
+        color: $primary_color;
+        position: absolute;
+        top: -31px;
+        right: 0px;
+        padding: 10px;
+        border-top-right-radius: 2px;
+        border-top-left-radius: 2px;
       }
-
       .services-form {
         display: flex;
+      }
+    }
+  }
+}
+
+.step1 {
+  form {
+    .dropshipper-form {
+      @include size(100% , auto);
+      display: block;
+      margin-bottom: 20px;
+      // padding: 10px;
+      input {
+      }
+      input[disabled]{
+        background: #f1f1f1; // or whatever
+      }
+      .check-box {
+        @include size(20px , 20px);
+        background: whitesmoke;
+        margin-bottom: 20px;
+        transition: all .3s ease;
+        cursor: pointer;
+        &.active {
+          background: $primary_color;
+        }
+        label {
+          font-size: 12px;
+          margin-left: 40px;
+          display: inline-block;
+        }
+        .checkbox {
+          opacity: 0;
+          z-index: -1;
+        }
+      }
+    }
+  }
+}
+
+.step2 , 
+.step3 {
+  .user-details-container {
+    @include size(100% , 50px);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+
+    .user--details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 14px;
+      color: #999;
+      justify-content: space-evenly;
+
+      span {
+        font-size: 12px;
+        color: #333;
+        font-weight: bold;
+      }
+    }
+  }
+  .services-container {
+    .form-step2 , 
+    .form-step3 {
+      @include size(100% , auto);
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 8px 0px;
+      border-bottom: solid 1px #f4f4f4;
+      .checkbox-container {
+        display: flex;
+        position: absolute;
+        right: 0;
+        .check-box {
+          margin-left: 20px;
+          cursor: pointer;
+          z-index: 2;
+          .label {
+            z-index: -1;
+          }
+        }
+      }
+
+      span {
+        font-size: 12px;
+        font-weight: bold;
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    .container-checkout {
+      .step1 ,
+      .step2 , 
+      .step3 {
+        @include size(100% , auto);
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: translate(0);
+        padding: 10px;
       }
     }
   }
