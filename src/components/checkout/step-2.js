@@ -1,6 +1,7 @@
 import React , {Component} from 'react'
+import {connect} from 'react-redux'
 
-export default class Step2 extends Component {
+class Step2 extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -16,70 +17,97 @@ export default class Step2 extends Component {
     this.serviecesDetails('jne')
   }
 
+  componentDidMount = () => {
+    console.log(this.props.state2)
+  }
+
   serviecesDetails = val => {
     switch(val) {
       case 'jne':
-        this.setState({
-          idr: 15000 , 
-          estimate: '2 Days' , 
-          payment_method: [
-            {label: 'Wallet' , value: 'wallet'} , 
-            {label: 'Virtual Account' , value: 'virtual_account'}
-          ]})
+        this.props.dispatch({
+          type: 'SERVICE_DETAILS',
+          payload: {
+            idr: 15000 , 
+            estimate: '2 Days' , 
+            payment_method: [
+              {label: 'Wallet' , value: 'wallet'} , 
+              {label: 'Virtual Account' , value: 'virtual_account'}
+            ]
+          }
+        })
         break;
       case 'gosend':
-        this.setState({
-          idr: 35000 , 
-          estimate: 'Half Days' , 
-          payment_method: [
-            {label: 'Wallet' , value: 'wallet'} , 
-          ]})
+        this.props.dispatch({
+          type: 'SERVICE_DETAILS',
+          payload: {
+            idr: 35000 , 
+            estimate: 'Half Days' , 
+            payment_method: [
+              {label: 'Wallet' , value: 'wallet'} , 
+            ]
+          }
+        })
         break;
       case 'sicepat':
-        this.setState({
-          idr: 10000 , 
-          estimate: '1 Days' , 
-          payment_method: [
-            {label: 'Wallet' , value: 'wallet'} , 
-            {label: 'Bank Transfer' , value: 'bank_transfer'},
-            {label: 'Virtual Account' , value: 'virtual_account'}
-          ]})
+        this.props.dispatch({
+          type: 'SERVICE_DETAILS',
+          payload: {
+            idr: 10000 , 
+            estimate: '1 Days' , 
+            payment_method: [
+              {label: 'Wallet' , value: 'wallet'} , 
+              {label: 'Bank Transfer' , value: 'bank_transfer'},
+              {label: 'Virtual Account' , value: 'virtual_account'}
+            ]
+          }
+        })
         break;
     }
   }
 
   selectServices = e => {
     let value = e.target.value
-    this.setState({services_value: value} , () => {
-      this.serviecesDetails(value)
+    this.props.dispatch({
+      type: 'SERVICE_VAL',
+      payload: value
     })
+
+    this.serviecesDetails(value)
+    console.log(this.props.state2)
   }
 
   selectPayment = e => {
     let value = e.target.value 
-    this.setState({payment: value} , () => {
-      console.log(this.state)
+    this.props.dispatch({
+      type: 'PAYMENT',
+      payload: value
     })
+    console.log(this.props.state2)
   }
 
   nextStep = () => {
     this.props.done('step3')
+    this.props.deliveryData(this.state)
   }
 
   checkPaymentMethod = obj => {
-    this.state.payment === obj.value
+    this.props.state2.payment === obj.value
     // fix me
-    // check if payment method not out there return default to wallet
+    
+  }
+
+  prevStep = () => {
+    this.props.prev('step1')
   }
 
   render() {
-    const data = this.props.data
+    const data = this.props.state
     const {
       idr ,
       estimate ,
       payment_method , 
       payment
-    } = this.state
+    } = this.props.state2
 
     return (
       <div className='step2'>
@@ -97,21 +125,21 @@ export default class Step2 extends Component {
             <div className="check-box">
               <input type="radio" value='jne'
                 onChange={this.selectServices}
-                checked={this.state.services_value === 'jne'}
+                checked={this.props.state2.services_value === 'jne'}
               />
               <label htmlFor="">JNE</label>
             </div>
             <div className="check-box">
               <input type="radio" value='gosend'
                 onChange={this.selectServices}
-                checked={this.state.services_value === 'gosend'}
+                checked={this.props.state2.services_value === 'gosend'}
               />
               <label htmlFor="">Go Send</label>
             </div>
             <div className="check-box">
               <input type="radio" value='sicepat'
                 onChange={this.selectServices}
-                checked={this.state.services_value === 'sicepat'}
+                checked={this.props.state2.services_value === 'sicepat'}
               />
               <label htmlFor="">Si Cepat</label>
             </div>
@@ -132,15 +160,26 @@ export default class Step2 extends Component {
             {payment_method.map((obj , i) => (
               <div className="payement-box" key={i+1}>
                 <label htmlFor="">{obj.label}</label>
-                <input type="radio" value={obj.value} onChange={this.selectPayment} checked={this.checkPaymentMethod(obj)}/>
+                <input type="radio" value={obj.value} onChange={this.selectPayment} 
+                  checked={this.props.state2.payment === obj.value}/>
               </div>
             ))}
           </div>
 
           <button className="btn-next" onClick={this.nextStep}>Next</button>
+          <button className="btn-prev" onClick={this.prevStep}>Prev</button>
 
         </div>
       </div>
     );
   }
 }
+
+const stateToProps = state => {
+  return {
+    state: state.step1,
+    state2: state.step2
+  }
+}
+
+export default connect(stateToProps)(Step2)

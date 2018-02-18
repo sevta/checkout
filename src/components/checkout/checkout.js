@@ -12,7 +12,8 @@ class Checkout extends Component {
       step1: false,
       step: 'step1',
       data_user: null,
-      data_services: null
+      data_services: null,
+      data_delivery: null
     }
   }
   
@@ -20,12 +21,20 @@ class Checkout extends Component {
     this.setState({step: 'step2' , data_user: data})
   }
 
+  deliveryData = data => {
+    this.setState({data_delivery: data})
+  }
+
   goTo(step) {
-    this.setState({step: step})
+    this.setState({step})
   }
 
   doneFromStep2 = step => {
-    this.setState({step: step})
+    this.setState({step})
+  }
+
+  prevFromStep2 = step => {
+    this.setState({step})
   }
 
   renderStep(step) {
@@ -34,10 +43,10 @@ class Checkout extends Component {
         return <Step1 done={(data) => this.has_submit(data)}/>
         break;
       case 'step2':
-        return <Step2 data={this.state.data_user} done={this.doneFromStep2}/>
+        return <Step2 data={this.state.data_user} done={this.doneFromStep2} prev={this.prevFromStep2} deliveryData={this.deliveryData}/>
         break;
       case 'step3':
-        return <Step3 />
+        return <Step3 data={this.state.data_user} deliveryData={this.state.data_delivery}/>
         break;
     }
   }

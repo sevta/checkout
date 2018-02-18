@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
 
 class Step1 extends Component {
   constructor(props) {
@@ -22,23 +23,52 @@ class Step1 extends Component {
     }
   }
 
+  componentDidMount = () => {
+    console.log(this.props.state)
+  }
+
   sendAsDropshipper = e => {
+    let self = this
     const {is_dropshipper} = this.state
-    this.setState({is_dropshipper: !is_dropshipper})
+    this.setState({is_dropshipper: !is_dropshipper} , () => {
+      this.props.dispatch({
+        type: 'IS_DROPSHIPPER',
+        payload: self.state.is_dropshipper
+      })
+    })
+    //
+
+
+    console.log(this.props.state)
     if (!this.state.is_dropshipper) {
       this.setState({disabled: false})
+      this.props.dispatch({
+        type: 'DISABLED',
+        payload: false
+      })
     } else {
       this.setState({disabled: true , dropshipper_err_name: '' , dropshipper: {name: '' , phone: ''}})
+      this.props.dispatch({
+        type: 'DISABLED',
+        payload: true
+      })
     }
   }
 
   inputDropshipperForm = e => {
+    let self = this.state
     let value = e.target.value
     let dropshipper_name = this.refs.dropshipper_name.value
     let dropshipper_phone = this.refs.dropshipper_phone.value
-    this.setState({dropshipper: {name: dropshipper_name , phone: dropshipper_phone}} , () => {
-      console.log(this.state)
+    this.props.dispatch({
+      type: 'INPUT_DROPSHIPPER_NAME',
+      payload: dropshipper_name
     })
+    this.props.dispatch({
+      type: 'INPUT_DROPSHIPPER_PHONE',
+      payload: dropshipper_phone
+    })
+    console.log(this.props.state)
   }
 
   inputUserForm = (e , data) => {
@@ -53,7 +83,13 @@ class Step1 extends Component {
         address: user_address,
         email: user_email
       }
+    } , () => {
+      this.props.dispatch({
+        type: 'INPUT_USER' ,
+        payload: this.state.user
+      })
     })
+    console.log(this.props.state)
     if (data) {
       let text_max = 120
       let text_length = e.target.value.length
@@ -71,7 +107,7 @@ class Step1 extends Component {
     const {
       user , 
       dropshipper
-    } = this.state
+    } = this.props.state
 
     let isError = false
     const error = {}
@@ -86,10 +122,12 @@ class Step1 extends Component {
       error.user_phone = 'min 6 && max 20'
     } 
 
-    if (!this.isEmail(this.state.user.email)) {
-      isError = true
-      error.user_email = 'email not valid'
-    }
+    // -------- uncomment if done tester
+
+    // if (!this.isEmail(this.state.user.email)) {
+    //   isError = true
+    //   error.user_email = 'email not valid'
+    // }
 
     if (this.state.is_dropshipper && dropshipper.name.length <= 0) {
       isError = true
@@ -98,11 +136,27 @@ class Step1 extends Component {
 
     if (isError) {
       console.log('err')
-      this.setState({is_error: true , error: error} , () => console.log(this.state))
+      console.log(this.props.state)
+      // this.setState({is_error: true , error: error} , () => console.log(this.state))
+      this.props.dispatch({
+        type: 'ERROR',
+        payload: {
+          is_error: true ,
+          error: error
+        }
+      })
     } else {
       console.log('done')
-      this.setState({is_false: false , error: error} , () => console.log(this.state))
+      // this.setState({is_false: false , error: error} , () => console.log(this.state))
+      this.props.dispatch({
+        type: 'ERROR',
+        payload: {
+          is_error: false ,
+          error: error
+        }
+      })
       this.props.done(this.state)
+      console.log(this.props.state)
     }
   }
 
@@ -111,7 +165,7 @@ class Step1 extends Component {
   } 
 
   renderError = error => {
-    if (this.state.is_error) {
+    if (this.props.state.is_error) {
       return (
         <span className="error">{error}</span>
       )
@@ -127,7 +181,7 @@ class Step1 extends Component {
       counter , 
       error , 
       is_error ,
-    } = this.state 
+    } = this.props.state 
 
     return (
       <div className='step1'>
@@ -210,4 +264,10 @@ class Step1 extends Component {
   }
 }
 
-export default Step1;
+const stateToProps = state => {
+  return {
+    state: state.step1
+  }
+}
+
+export default connect(stateToProps)(Step1);
