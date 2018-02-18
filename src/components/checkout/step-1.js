@@ -52,6 +52,7 @@ class Step1 extends Component {
         type: 'DISABLED',
         payload: true
       })
+      this.props.dispatch({ type: 'CLEAR_DROPSHIPPER_VAL' })
     }
   }
 

@@ -34,6 +34,14 @@ export const step1 = (state = step1State , action) => {
         ...state ,
         disabled: action.payload
       }
+    case 'CLEAR_DROPSHIPPER_VAL':
+      return {
+        ...state , 
+        dropshipper: {
+          name: '',
+          phone: ''
+        }
+      }
     case 'INPUT_DROPSHIPPER_NAME':
       return {
         ...state ,
