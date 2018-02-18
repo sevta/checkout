@@ -1,0 +1,49 @@
+* {
+  -webkit-box-sizing: boreder-box;
+          box-sizing: boreder-box; }
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: #E2ECED; }
+  .wrapper .text {
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+    top: 120px; }
+  .wrapper .container-checkout {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); }
+    .wrapper .container-checkout .step1,
+    .wrapper .container-checkout .step2,
+    .wrapper .container-checkout .step3 {
+      width: 500px;
+      height: 400px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+      background: white;
+      -webkit-box-shadow: 2px 2px 5px rgba(215, 233, 239, 0.6);
+              box-shadow: 2px 2px 5px rgba(215, 233, 239, 0.6); }
+      .wrapper .container-checkout .step1 .user-details-container,
+      .wrapper .container-checkout .step2 .user-details-container,
+      .wrapper .container-checkout .step3 .user-details-container {
+        background: papayawhip;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex; }
+      .wrapper .container-checkout .step1 .services-form,
+      .wrapper .container-checkout .step2 .services-form,
+      .wrapper .container-checkout .step3 .services-form {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex; }

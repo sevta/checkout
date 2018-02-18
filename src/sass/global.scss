@@ -1,0 +1,42 @@
+@import './var';
+
+* {
+  box-sizing: boreder-box;
+}
+
+body {
+}
+
+.wrapper {
+  @include size(100% , 100vh);
+  position: relative;
+  background: #E2ECED;
+
+  .text {
+    @include center-horizontal;
+    top: 120px;
+  }
+
+  .container-checkout {
+    @include size(100% , auto);
+    @include center;
+
+    .step1 , 
+    .step2 ,
+    .step3 {
+      @include size(500px , 400px);
+      @include center;
+      background: white;
+      box-shadow: 2px 2px 5px rgba(215, 233, 239, 0.6);
+
+      .user-details-container {
+        background: papayawhip;
+        display: flex;
+      }
+
+      .services-form {
+        display: flex;
+      }
+    }
+  }
+}
